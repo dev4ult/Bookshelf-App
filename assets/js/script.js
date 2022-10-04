@@ -24,13 +24,18 @@ const bookAuthorInput = document.querySelector('#author');
 const bookYearInput = document.querySelector('#year');
 const readBookInput = document.querySelector('#is-read');
 
+let bookId = 1;
+
 addBookForm.addEventListener('submit', (e) => {
   const book = {
+    id: bookId,
     title: bookTitleInput.value,
     author: bookAuthorInput.value,
     year: parseInt(bookYearInput.value),
     isRead: readBookInput.checked ? true : false,
   };
+
+  bookId++;
 
   if (bookshelf[0].hasOwnProperty('isEmpty')) {
     bookshelf[0] = book;
