@@ -28,9 +28,17 @@
           <td><input type="number" name="year" id="year" required /></td>
         </tr>
         <tr>
+          <td>
+            <label for="is-read">Is read? <input type="checkbox" name="is-read" id="is-read" /></label>
+          </td>
+        </tr>
+        <tr>
           <td><input type="submit" name="add-book" id="add-book" value="Add book" /></td>
         </tr>
       </table>
     </form>
+    <button id="clear-btn">clear form</button>
+    <section id="is-read-books"></section>
+    <section id="not-read-books"></section>
   </body>
 </html>
