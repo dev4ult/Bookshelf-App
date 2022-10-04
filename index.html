@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bookshelf APP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@100;200;300;400;500;600;700;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
+  <body>
+    <main class="container">
+      <h1 id="main-title">Bookshelf Apps</h1>
+      <form action="#" id="add-books-form">
+        <div>
+          <label for="judul-buku">Judul</label>
+          <input type="text" name="judul-buku" id="judul-buku" required />
+        </div>
+        <div>
+          <label for="penulis-buku">Penulis</label>
+          <input type="text" name="penulis-buku" id="penulis-buku" required />
+        </div>
+        <div>
+          <label for="tahun-rilis">Tahun</label>
+          <input type="number" name="tahun-rilis" id="tahun-rilis" required />
+        </div>
+        <div>
+          <label for="isComplete">Selesai dibaca?</label>
+          <input type="checkbox" name="isComplete" id="isComplete" />
+        </div>
+        <div>
+          <input type="submit" id="submit-btn" value="Submit data" />
+        </div>
+      </form>
+      <div id="display">
+        <section id="read-book"></section>
+        <section id="not-yet-read"></section>
+      </div>
+    </main>
+    <script src="assets/js/script.js"></script>
+  </body>
+</html>
