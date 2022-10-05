@@ -12,6 +12,7 @@ const emptyObject = {
 
 const { msg: emptyMsg } = emptyObject;
 
+// first check when loading the browser
 if (typeof Storage !== undefined) {
   console.log('local storage is available');
   if (localStorage.getItem('bookshelf') === null || localStorage.getItem('last-book-id') === null) {
@@ -23,7 +24,7 @@ if (typeof Storage !== undefined) {
   if (bookshelf[0].hasOwnProperty('isEmpty')) {
     isReadBooksContainer.innerHTML = `<h2>${emptyMsg}</h2>`;
   } else {
-    placeBook();
+    placeBook(bookshelf);
   }
 }
 
@@ -58,13 +59,13 @@ addBookForm.addEventListener('submit', (e) => {
 
   localStorage.setItem('bookshelf', JSON.stringify(bookshelf));
 
-  placeBook();
+  placeBook(bookshelf);
 
   e.preventDefault();
 });
 
 // placing book on shelf
-function placeBook() {
+function placeBook(bookshelf) {
   isReadBooksContainer.innerHTML = '<h1>Is Read</h1>';
   notReadBooksContainer.innerHTML = '<h1>Not yet Read</h1>';
 
@@ -93,6 +94,7 @@ clearFormBtn.addEventListener('click', (_) => {
   bookYearInput.value = '';
 });
 
+// check for new element in document
 document.addEventListener('click', (element) => {
   // delete book btn
   const deleteBookBtn = document.querySelectorAll('.delete-btn');
@@ -107,8 +109,42 @@ document.addEventListener('click', (element) => {
         notReadBooksContainer.innerHTML = '';
       } else {
         localStorage.setItem('bookshelf', JSON.stringify(bookshelf));
-        placeBook();
+        placeBook(bookshelf);
       }
     }
   });
+});
+
+// search a book
+const searchKeyword = document.querySelector('#keyword-search');
+const searchBookForm = document.querySelector('#search-book-form');
+const showKeyword = document.querySelector('#show-keyword');
+let keyword;
+searchBookForm.addEventListener('submit', (e) => {
+  keyword = searchKeyword.value;
+  const filteredBookshelf = bookshelf.filter((book) => {
+    const { title, author, year } = book;
+    return title.includes(keyword) || author.includes(keyword) || year.toString().includes(keyword);
+  });
+  placeBook(filteredBookshelf);
+
+  searchKeyword.value = '';
+  showKeyword.textContent = `Keyword : ${keyword}`;
+
+  e.preventDefault();
+});
+
+searchKeyword.addEventListener('keypress', (e) => {
+  keyword = searchKeyword.value;
+  const filteredBookshelf = bookshelf.filter((book) => {
+    const { title, author, year } = book;
+    return title.includes(keyword) || author.includes(keyword) || year.toString().includes(keyword);
+  });
+  placeBook(filteredBookshelf);
+
+  if (e.key == 'Enter') {
+    showKeyword.textContent = `Keyword : ${keyword}`;
+    searchKeyword.value = '';
+    e.preventDefault();
+  }
 });
