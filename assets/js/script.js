@@ -5,16 +5,23 @@ let bookshelf = [];
 const isReadBooksContainer = document.querySelector('#is-read-books');
 const notReadBooksContainer = document.querySelector('#not-read-books');
 
+const emptyObject = {
+  msg: 'Your Bookshelf is Empty',
+  isEmpty: true,
+};
+
+const { msg: emptyMsg } = emptyObject;
+
 if (typeof Storage !== undefined) {
   console.log('local storage is available');
-  if (localStorage.getItem('bookshelf') === null) {
-    localStorage.setItem('bookshelf', JSON.stringify([{ msg: 'Your BookShelf is Empty', isEmpty: true }]));
+  if (localStorage.getItem('bookshelf') === null || localStorage.getItem('last-book-id') === null) {
+    bookshelf = [];
+    localStorage.setItem('bookshelf', JSON.stringify([emptyObject]));
     localStorage.setItem('last-book-id', 1);
   }
   bookshelf = JSON.parse(localStorage.getItem('bookshelf'));
   if (bookshelf[0].hasOwnProperty('isEmpty')) {
-    const { msg } = bookshelf[0];
-    isReadBooksContainer.innerHTML = `<h2>${msg}</h2>`;
+    isReadBooksContainer.innerHTML = `<h2>${emptyMsg}</h2>`;
   } else {
     placeBook();
   }
@@ -25,9 +32,11 @@ const bookAuthorInput = document.querySelector('#author');
 const bookYearInput = document.querySelector('#year');
 const readBookInput = document.querySelector('#is-read');
 
-let bookId = parseInt(localStorage.getItem('last-book-id'));
+let bookId = localStorage.getItem('last-book-id');
 
 addBookForm.addEventListener('submit', (e) => {
+  bookshelf = JSON.parse(localStorage.getItem('bookshelf'));
+
   const book = {
     id: bookId,
     title: bookTitleInput.value,
@@ -44,6 +53,9 @@ addBookForm.addEventListener('submit', (e) => {
   } else {
     bookshelf.push(book);
   }
+
+  console.log(bookshelf);
+
   localStorage.setItem('bookshelf', JSON.stringify(bookshelf));
 
   placeBook();
@@ -58,7 +70,7 @@ function placeBook() {
 
   bookshelf.forEach((book) => {
     const { id, title, author, year, isRead } = book;
-    const divHTML = `<div>
+    const divHTML = `<div class="book">
                         <h2>${title}</h2>
                         <h3>${author}</h3>
                         <h3>${year}</h3>
@@ -81,18 +93,17 @@ clearFormBtn.addEventListener('click', (_) => {
   bookYearInput.value = '';
 });
 
-// delete a book
-const deleteBookBtn = document.querySelectorAll('.delete-btn');
-deleteBookBtn.forEach((btn) => {
-  btn.style.cursor = 'pointer';
-  btn.addEventListener('click', (_) => {
-    const bookIndex = bookshelf.map((book) => book.id).indexOf(parseInt(btn.getAttribute('data-id')));
-    console.log(bookIndex);
-    if (bookIndex >= 0) {
+document.addEventListener('click', (element) => {
+  // delete book btn
+  const deleteBookBtn = document.querySelectorAll('.delete-btn');
+  deleteBookBtn.forEach((btn) => {
+    if (element.target == btn) {
+      const bookIndex = bookshelf.map((book) => book.id).indexOf(btn.getAttribute('data-id'));
       bookshelf.splice(bookIndex, 1);
+
       if (bookshelf.length == 0) {
-        localStorage.setItem('bookshelf', JSON.stringify([{ msg: 'Your BookShelf is Empty', isEmpty: true }]));
-        isReadBooksContainer.innerHTML = '<h2>Your Bookshelf is Empty</h2>';
+        localStorage.setItem('bookshelf', JSON.stringify([emptyObject]));
+        isReadBooksContainer.innerHTML = `<h2>${emptyMsg}</h2>`;
         notReadBooksContainer.innerHTML = '';
       } else {
         localStorage.setItem('bookshelf', JSON.stringify(bookshelf));

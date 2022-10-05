@@ -6,3 +6,17 @@
   box-sizing: border-box;
   font-family: 'Archivo';
 }
+
+section {
+  display: flex;
+  gap: 2px;
+  flex-wrap: wrap;
+}
+
+.book {
+  border: 2px solid black;
+}
+
+.delete-btn {
+  cursor: pointer;
+}
