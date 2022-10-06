@@ -21,11 +21,7 @@ if (typeof Storage !== undefined) {
     localStorage.setItem('last-book-id', 1);
   }
   bookshelf = JSON.parse(localStorage.getItem('bookshelf'));
-  if (bookshelf[0].hasOwnProperty('isEmpty')) {
-    isReadBooksContainer.innerHTML = `<h2>${emptyMsg}</h2>`;
-  } else {
-    placeBook(bookshelf);
-  }
+  placeBook(bookshelf);
 }
 
 const bookTitleInput = document.querySelector('#title');
@@ -66,6 +62,15 @@ addBookForm.addEventListener('submit', (e) => {
 
 // placing book on shelf
 function placeBook(bookshelf) {
+  notReadBooksContainer.innerHTML = '';
+  if (bookshelf.length == 0) {
+    isReadBooksContainer.innerHTML = `<h2>No data with that keyword</h2>`;
+    return false;
+  } else if (bookshelf[0].hasOwnProperty('isEmpty')) {
+    isReadBooksContainer.innerHTML = `<h2>${emptyMsg}</h2>`;
+    return false;
+  }
+
   isReadBooksContainer.innerHTML = '<h1>Is Read</h1>';
   notReadBooksContainer.innerHTML = '<h1>Not yet Read</h1>';
 
@@ -75,13 +80,10 @@ function placeBook(bookshelf) {
                         <h2>${title}</h2>
                         <h3>${author}</h3>
                         <h3>${year}</h3>
+                        <a class="switch-btn"></a>
                         <a class="delete-btn" data-id="${id}" style="cursor: pointer">delete</a>
                     </div>`;
-    if (isRead) {
-      isReadBooksContainer.innerHTML += divHTML;
-    } else {
-      notReadBooksContainer.innerHTML += divHTML;
-    }
+    (isRead ? isReadBooksContainer : notReadBooksContainer).innerHTML += divHTML;
   });
 }
 
@@ -105,6 +107,7 @@ document.addEventListener('click', (element) => {
 
       if (bookshelf.length == 0) {
         localStorage.setItem('bookshelf', JSON.stringify([emptyObject]));
+        bookshelf = [emptyObject];
         isReadBooksContainer.innerHTML = `<h2>${emptyMsg}</h2>`;
         notReadBooksContainer.innerHTML = '';
       } else {
@@ -120,12 +123,20 @@ const searchKeyword = document.querySelector('#keyword-search');
 const searchBookForm = document.querySelector('#search-book-form');
 const showKeyword = document.querySelector('#show-keyword');
 let keyword;
+
+// search by submit the form
 searchBookForm.addEventListener('submit', (e) => {
   keyword = searchKeyword.value;
-  const filteredBookshelf = bookshelf.filter((book) => {
-    const { title, author, year } = book;
-    return title.includes(keyword) || author.includes(keyword) || year.toString().includes(keyword);
-  });
+
+  const checkEmpty = bookshelf[0].hasOwnProperty('isEmpty');
+
+  const filteredBookshelf = checkEmpty
+    ? [emptyObject]
+    : bookshelf.filter((book) => {
+        const { title, author, year } = book;
+        return title.includes(keyword) || author.includes(keyword) || year.toString().includes(keyword);
+      });
+
   placeBook(filteredBookshelf);
 
   searchKeyword.value = '';
@@ -134,12 +145,19 @@ searchBookForm.addEventListener('submit', (e) => {
   e.preventDefault();
 });
 
+// live search and like a form submit on enter
 searchKeyword.addEventListener('keypress', (e) => {
   keyword = searchKeyword.value;
-  const filteredBookshelf = bookshelf.filter((book) => {
-    const { title, author, year } = book;
-    return title.includes(keyword) || author.includes(keyword) || year.toString().includes(keyword);
-  });
+
+  const checkEmpty = bookshelf[0].hasOwnProperty('isEmpty');
+
+  const filteredBookshelf = checkEmpty
+    ? [emptyObject]
+    : bookshelf.filter((book) => {
+        const { title, author, year } = book;
+        return title.includes(keyword) || author.includes(keyword) || year.toString().includes(keyword);
+      });
+
   placeBook(filteredBookshelf);
 
   if (e.key == 'Enter') {
