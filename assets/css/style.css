@@ -1,10 +1,12 @@
+@import url('satoshi.css');
+
 *,
 *::before,
 *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Archivo';
+  font-family: 'Satoshi-Variable';
 }
 
 section {
@@ -13,10 +15,16 @@ section {
   flex-wrap: wrap;
 }
 
-.book {
-  border: 2px solid black;
-}
-
 a {
   cursor: pointer;
+}
+
+.container {
+  margin-inline: auto;
+  max-width: 90%;
+  padding-inline: 0.75rem;
+}
+
+.book {
+  border: 2px solid black;
 }
