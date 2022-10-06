@@ -29,7 +29,7 @@ const bookAuthorInput = document.querySelector('#author');
 const bookYearInput = document.querySelector('#year');
 const readBookInput = document.querySelector('#is-read');
 
-let bookId = localStorage.getItem('last-book-id');
+let bookId = parseInt(localStorage.getItem('last-book-id'));
 
 addBookForm.addEventListener('submit', (e) => {
   bookshelf = JSON.parse(localStorage.getItem('bookshelf'));
@@ -80,7 +80,7 @@ function placeBook(bookshelf) {
                         <h2>${title}</h2>
                         <h3>${author}</h3>
                         <h3>${year}</h3>
-                        <a class="switch-btn"></a>
+                        <a class="switch-btn" data-id="${id}">${!isRead ? 'is' : 'not yet'} read</a>
                         <a class="delete-btn" data-id="${id}" style="cursor: pointer">delete</a>
                     </div>`;
     (isRead ? isReadBooksContainer : notReadBooksContainer).innerHTML += divHTML;
@@ -102,7 +102,7 @@ document.addEventListener('click', (element) => {
   const deleteBookBtn = document.querySelectorAll('.delete-btn');
   deleteBookBtn.forEach((btn) => {
     if (element.target == btn) {
-      const bookIndex = bookshelf.map((book) => book.id).indexOf(btn.getAttribute('data-id'));
+      const bookIndex = bookshelf.map((book) => book.id).indexOf(parseInt(btn.getAttribute('data-id')));
       bookshelf.splice(bookIndex, 1);
 
       if (bookshelf.length == 0) {
@@ -114,6 +114,18 @@ document.addEventListener('click', (element) => {
         localStorage.setItem('bookshelf', JSON.stringify(bookshelf));
         placeBook(bookshelf);
       }
+    }
+  });
+
+  // switch shelf btn
+  const switchShelfBtn = document.querySelectorAll('.switch-btn');
+  switchShelfBtn.forEach((btn) => {
+    if (element.target == btn) {
+      const bookIndex = bookshelf.map((book) => book.id).indexOf(parseInt(btn.getAttribute('data-id')));
+      const checkRead = bookshelf[bookIndex].isRead;
+      bookshelf[bookIndex].isRead = !checkRead ? true : false;
+      localStorage.setItem('bookshelf', JSON.stringify(bookshelf));
+      placeBook(bookshelf);
     }
   });
 });
