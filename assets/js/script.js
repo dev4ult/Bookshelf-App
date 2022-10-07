@@ -2,8 +2,8 @@ const addBookForm = document.querySelector('#add-book-form');
 
 let bookshelf = [];
 
-const isReadBooksContainer = document.querySelector('#is-read-books');
-const notReadBooksContainer = document.querySelector('#not-read-books');
+const isReadBooksContainer = document.querySelector('#is-read-shelf');
+const notReadBooksContainer = document.querySelector('#not-read-shelf');
 
 const emptyObject = {
   msg: 'Your Bookshelf is Empty',
@@ -71,19 +71,26 @@ function placeBook(bookshelf) {
     return false;
   }
 
-  isReadBooksContainer.innerHTML = '<h1>Is Read</h1>';
-  notReadBooksContainer.innerHTML = '<h1>Not yet Read</h1>';
+  isReadBooksContainer.innerHTML = `<h1>Is Read</h1>
+                                    <div id='is-read-books'></div>`;
+  notReadBooksContainer.innerHTML = `<h1>Not yet Read</h1>
+                                     <div id='not-read-books'></div>`;
+
+  const isReadBooks = document.querySelector('#is-read-books');
+  const notReadBooks = document.querySelector('#not-read-books');
 
   bookshelf.forEach((book) => {
     const { id, title, author, year, isRead } = book;
     const divHTML = `<div class="book">
                         <h2>${title}</h2>
                         <h3>${author}</h3>
-                        <h3>${year}</h3>
-                        <a class="switch-btn" data-id="${id}">${!isRead ? 'is' : 'not yet'} read</a>
-                        <a class="delete-btn" data-id="${id}" style="cursor: pointer">delete</a>
+                        <h4>${year}</h4>
+                        <div>
+                          <a class="switch-btn" data-id="${id}">${!isRead ? 'Is' : 'Not yet'} read</a>
+                          <a class="delete-btn" data-id="${id}" style="cursor: pointer">Delete</a>
+                        </div>
                     </div>`;
-    (isRead ? isReadBooksContainer : notReadBooksContainer).innerHTML += divHTML;
+    (isRead ? isReadBooks : notReadBooks).innerHTML += divHTML;
   });
 }
 
