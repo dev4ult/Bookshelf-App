@@ -21,6 +21,8 @@ section {
 
 a {
   cursor: pointer;
+  text-decoration: none;
+  color: black;
 }
 
 .container {
@@ -40,12 +42,13 @@ a {
 
 #hero-title {
   font-size: 4rem;
-  font-family: 'Satoshi-Bold';
+  font-family: 'Archivo';
+  font-weight: 800;
 }
 
 #title-underline {
   background-color: black;
-  height: 5px;
+  height: 8px;
   border: none;
 }
 
@@ -60,7 +63,91 @@ a {
 #sub-title {
   margin-top: 0.5rem;
   font-size: 1.8rem;
-  font-family: 'Satoshi-Bold';
+}
+
+/* New book form */
+
+#open-new-book-section {
+  margin-block: 1rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+#question-mark {
+  font-size: 1.3rem;
+}
+
+#open-new-book-form {
+  display: block;
+  position: relative;
+  width: fit-content;
+  padding: 0.2rem 0.5rem;
+  border: 2px solid black;
+  overflow: hidden;
+  transition: 150ms ease;
+  z-index: 2;
+}
+
+#open-new-book-form:hover {
+  color: white;
+  transition: 150ms ease;
+}
+
+#open-new-book-form::before {
+  content: '';
+  z-index: -1;
+  position: absolute;
+  background-color: black;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  transform: translateX(-100%);
+  transition: 150ms ease;
+}
+
+#open-new-book-form:hover::before {
+  transform: translateX(0);
+  transition: 150ms ease;
+}
+
+#add-book-form {
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+#add-book-form div {
+  display: flex;
+  gap: 1rem;
+}
+
+label,
+input:not([type='submit']) {
+  font-size: 1.3rem;
+}
+
+input:not([type='submit']) {
+  background: none;
+  border: none;
+  border-bottom: 2px solid black;
+  padding: 0.3rem;
+}
+
+input:not([type='submit']):focus {
+  outline: none;
+}
+
+input[type='submit'] {
+  background-color: black;
+  color: white;
+  font-size: 1.1rem;
+  padding: 0.2rem 0.6rem;
+  cursor: pointer;
+  font-weight: 600;
+  width: fit-content;
 }
 
 @media only screen and (min-width: 768px) {
