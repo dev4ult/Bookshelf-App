@@ -71,9 +71,9 @@ function placeBook(bookshelf) {
     return false;
   }
 
-  isReadBooksContainer.innerHTML = `<h1>Is Read</h1>
+  isReadBooksContainer.innerHTML = `<h1>Is read</h1>
                                     <div id='is-read-books'></div>`;
-  notReadBooksContainer.innerHTML = `<h1>Not yet Read</h1>
+  notReadBooksContainer.innerHTML = `<h1>Not yet read</h1>
                                      <div id='not-read-books'></div>`;
 
   const isReadBooks = document.querySelector('#is-read-books');
@@ -183,5 +183,20 @@ searchKeyword.addEventListener('keypress', (e) => {
     showKeyword.textContent = `Keyword : ${keyword}`;
     searchKeyword.value = '';
     e.preventDefault();
+  }
+});
+
+const openAddFormBtn = document.querySelector('#open-new-book-form');
+const newBookForm = document.querySelector('#add-book-form');
+const mark = document.querySelector('#question-mark');
+openAddFormBtn.addEventListener('click', (_) => {
+  if (newBookForm.style.maxHeight) {
+    newBookForm.style.maxHeight = null;
+    openAddFormBtn.textContent = 'New Book';
+    mark.textContent = '?';
+  } else {
+    newBookForm.style.maxHeight = newBookForm.scrollHeight + 'px';
+    openAddFormBtn.textContent = 'Close Form';
+    mark.textContent = 'X';
   }
 });
