@@ -87,7 +87,12 @@ function placeBook(bookshelf) {
                         <h4>${year}</h4>
                         <div>
                           <a class="switch-btn" data-id="${id}">${!isRead ? 'Is' : 'Not yet'} read</a>
-                          <a class="delete-btn" data-id="${id}" style="cursor: pointer">Delete</a>
+                          <a>
+                            <img src="assets/logo/edit.svg" class="edit-btn" alt="edit btn" data-id="${id}" />
+                          </a>
+                          <a>
+                            <img src="assets/logo/delete.svg" class="delete-btn" alt="delete btn" data-id="${id}" />
+                          </a>
                         </div>
                     </div>`;
     (isRead ? isReadBooks : notReadBooks).innerHTML += divHTML;
@@ -121,6 +126,7 @@ document.addEventListener('click', (element) => {
         localStorage.setItem('bookshelf', JSON.stringify(bookshelf));
         placeBook(bookshelf);
       }
+      console.log('something');
     }
   });
 

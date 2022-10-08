@@ -90,11 +90,21 @@ a {
   margin-top: 0.5rem;
 }
 
-.book div a {
+.book div .switch-btn {
   color: white;
   background-color: black;
   padding: 0.2rem 0.4rem;
   font-size: 0.9rem;
+}
+
+.book div a:not(.switch-btn) {
+  position: relative;
+  bottom: -8px;
+}
+
+.book div a:not(.switch-btn) img {
+  width: 25px;
+  margin-left: 0.3rem;
 }
 
 #hero-section {
